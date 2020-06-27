@@ -6,53 +6,64 @@ include_once './includes/config.php';
     
 if(isset($_POST['btn-insert']))
 {
-	$uname=$_POST['dealername'];
+	$uname=$_POST['customername'];
     $contactno=$_POST['contactno'];
     $email=$_POST['email'];
     $address=$_POST['address'];
+    $area=$_POST['area'];
+    $pincode=$_POST['pincode'];
     $pass=$_POST['password'];
     $gender=$_POST['gen'];
     $dob=$_POST['dob'];
-    $category=$_POST['category'];
+    //$category=$_POST['category'];
     $cpassword=$_POST['cpassword'];
 
     // print_r($_REQUEST);
 	
         $_SESSION['EMAIL']=$email;
         //$category=$_POST['category'];
-        $status='D';
+        $status='A';
         $otp1=rand(11111,99999);
         
 	//$ch="dealer";
         $result=  mysqli_query($con,"SELECT * FROM tbl_dealer_reg WHERE dealer_email='$email'");
         if(mysqli_num_rows($result) >= '1')
         {
-            echo "<script>alert('Already exists')</script>";
+            echo "<script>alert('User Already exists as Dealer')</script>";
         }
-        else{
-            if($pass==$cpassword){
-            $sql=mysqli_query($con,"INSERT INTO `tbl_dealer_reg`(`dealer_name`, `dealer_contactno`, `dealer_email`, `dealer_address`, `dealer_gender`, `dealer_dob`, `dealer_password`, `dealer_category`, `dealer_status`) VALUES ('$uname','$contactno','$email','$address','$gender','$dob','$pass','$category','$status')");
-            // if($sql){
-            //     $html="Your otp verification code is ".$otp1;
-            //     $headers = "From: groceryshoopingsurat@gmail.com";
-            //     $_SESSION['EMAIL']=$email;
-            //     mail($email2,"OTP Verification",$html,$headers);
-            //     header("location: Check_otp_enter.php?email=".$_POST['txtemail']."");
-            // }
-            // else{
-            //     echo "<script>alert('Invalid')</script>";
-            // }
+        else
+        {
+            $check1=mysqli_query($con,"SELECT * FROM tbl_customer_reg WHERE customer_email='$email'");
+            if(mysqli_num_rows($check1) >= '1')
+            {
+                echo "<script>alert('User Already exists')</script>";
             }
-            else{
-                echo "<script>alert('Password not match')</script>";
-            }
+            else
+            {
+                if($pass==$cpassword){
+                $sql=mysqli_query($con,"INSERT INTO `tbl_customer_reg`(`customer_name`, `customer_contactno`, `customer_email`, `customer_address`, `customer_area`, `customer_pincode`, `customer_gender`, `customer_dob`, `customer_password`, `customer_status`) VALUES ('$uname','$contactno','$email','$address','$area','$pincode','$gender','$dob','$pass','$status')");
+                // if($sql){
+                //     $html="Your otp verification code is ".$otp1;
+                //     $headers = "From: groceryshoopingsurat@gmail.com";
+                //     $_SESSION['EMAIL']=$email;
+                //     mail($email2,"OTP Verification",$html,$headers);
+                //     header("location: Check_otp_enter.php?email=".$_POST['txtemail']."");
+                // }
+                // else{
+                //     echo "<script>alert('Invalid')</script>";
+                // }
+                }
+                else{
+                    echo "<script>alert('Password not match')</script>";
+                }
 
-            if($sql){
-                echo "<script>alert('inserted')</script>";
+                if($sql){
+                    echo "<script>alert('inserted')</script>";
 
-            }
-            else{
-                echo "not intersted";
+                }
+                else{
+                    echo "not intersted";
+                }
             }
           }
 }
@@ -77,13 +88,13 @@ if(isset($_POST['btn-insert']))
                                 <img src="./images/icon/logo.jpg" style="height: 80px;" alt="CoolAdmin">
                                 
                             </a>
-                            <p>Dealer Registration</p>
+                            <p>Customer Registration</p>
                         </div>
                         <div class="login-form">
                             <form action="#" method="POST">
                                 <div class="form-group">
-                                    <label>Dealer Name</label>
-                                    <input class="au-input au-input--full" type="text"  style="height: 50px;" name="dealername" placeholder="Enter Your Name">
+                                    <label>Customer Name</label>
+                                    <input class="au-input au-input--full" type="text"  style="height: 50px;" name="customername" placeholder="Enter Your Name">
                                 </div>
                                 <div class="form-group">
                                     <label>Contact Number</label>
@@ -99,6 +110,14 @@ if(isset($_POST['btn-insert']))
                                 <div class="form-group">
                                     <label>Address</label>
                                     <input class="au-input au-input--full" type="text"  style="height: 50px;" name="address" placeholder="Enter your Address">
+                                </div>
+                                <div class="form-group">
+                                    <label>Area</label>
+                                    <input class="au-input au-input--full" type="text" style="height: 50px;" id="area" name="area" placeholder="Enter Your Area ">
+                                </div>
+                                <div class="form-group">
+                                    <label>Pincode Number</label>
+                                    <input class="au-input au-input--full" type="number"  style="height: 50px;" name="pincode" placeholder="Enter pincode">
                                 </div>
                                 <div class="form-group">
                                     <label>Gender</label>
@@ -124,19 +143,6 @@ if(isset($_POST['btn-insert']))
                                 <div class="form-group">
                                     <label>Confirm Password</label>
                                     <input class="au-input au-input--full" type="password" style="height: 50px;" name="cpassword" placeholder="Password">
-                                </div>
-                                <div class="form-group">
-                                    <label>Category</label>
-                                </div>
-                                <div class="form-group">
-                                    <select name="category" class="form-control" required>
-                                    <option value="">Select Category</option> 
-                                    <?php $query=mysqli_query($con,"select * from category");
-                                    while($row=mysqli_fetch_array($query))
-                                    {?>
-                                        <option value="<?php echo $row['CATEGORY_NAME'];?>"><?php echo $row['CATEGORY_NAME'];?></option>
-                                    <?php } ?>
-                                    </select>
                                 </div>
                                 <div class="login-checkbox">
                                     <label>

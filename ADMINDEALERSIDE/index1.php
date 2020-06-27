@@ -3,11 +3,11 @@
 //index.php
 session_start();
     include('./includes/config.php');
-    if(strlen($_SESSION['alogin'])==0)
-    {	
-    header('location:index.php');
-    }
-    else{
+    // if(strlen($_SESSION['alogin'])==0)
+    // {	
+    // header('location:index.php');
+    // }
+    // else{
 ?>
 
 <!DOCTYPE html>
@@ -202,4 +202,4 @@ $(document).ready(function(){
     
 });
 
-</script>    <?php } ?>
+</script>    <?php //} ?>
